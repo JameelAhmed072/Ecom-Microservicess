@@ -16,11 +16,11 @@ public class ProductHelper {
 
     public static ProductResponse makeProductResponseFromProduct(Product product){
         ProductResponse productResponse = new ProductResponse();
-        productResponse.setProductPrice(product.getProductPrice());
         productResponse.set_id(product.get_id());
-        productResponse.setTitle(product.getTitle());
         productResponse.setProductName(product.getProductName());
+        productResponse.setTitle(product.getTitle());
         productResponse.setProductDescription(product.getProductDescription());
+        productResponse.setProductPrice(product.getProductPrice());
         return productResponse;
     }
 }

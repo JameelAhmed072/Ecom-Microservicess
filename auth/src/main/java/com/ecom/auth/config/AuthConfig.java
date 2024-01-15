@@ -17,23 +17,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class AuthConfig {
     private UserRepository userRepository;
-
     public AuthConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     public UserDetailsService userDetailsService(){
         return new CustomUserDetailService(userRepository);
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(a -> a.disable())
                 .authorizeHttpRequests(b -> b.requestMatchers("/auth/generateToken","/auth/validateToken").permitAll())
                 .build();
     }
-
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

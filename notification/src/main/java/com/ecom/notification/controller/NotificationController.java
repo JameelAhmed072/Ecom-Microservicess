@@ -1,6 +1,5 @@
 package com.ecom.notification.controller;
 
-import com.ecom.common.dto.EmailResponse;
 import com.ecom.common.dto.UserResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
