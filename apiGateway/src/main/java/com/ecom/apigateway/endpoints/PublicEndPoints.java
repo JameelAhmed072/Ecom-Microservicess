@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public class PublicEndPoints {
 
 
-    public static final List<String> publicEndpoints = List.of("/auth/generateToken","/eureka");
+    public static final List<String> publicEndpoints = List.of("/auth/generateToken","/eureka","/auth/generateRefreshToken");
 
     public Predicate<ServerHttpRequest> isPublic =
                     serverHttpRequest -> publicEndpoints.stream().noneMatch(publicUris -> serverHttpRequest.getURI().getPath().contains(publicUris));

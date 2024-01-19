@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomJwt {
 
-    private String token;
+    private String requestToken;
+    private String refreshToken;
     private String userName;
     private String userEmail;
 

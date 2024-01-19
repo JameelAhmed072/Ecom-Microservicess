@@ -2,8 +2,10 @@ package com.ecom.user.controller;
 
 
 import com.ecom.common.dto.UserResponse;
+import com.ecom.user.annotation.SecureEndpoint;
 import com.ecom.user.helper.UserHelper;
 import com.ecom.user.model.User;
+import com.ecom.user.pattern.UserNameSingleton;
 import com.ecom.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,15 +24,28 @@ public class UserController {
         return UserHelper.makeUserResponseFromUser(this.userService.getUserById(userId));
     }
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> allUsers = this.userService.allUsers();
-        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    @SecureEndpoint({"ADMIN"})
+    public ResponseEntity<List<User>> getAllUsers() throws Exception{
+        try {
+            List<User> allUsers = this.userService.allUsers();
+            return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
     }
     @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user) throws Exception {
 
-        User user1 = this.userService.addUser(user);
-        return new ResponseEntity<>(user1, HttpStatus.OK);
+        try {
+            UserNameSingleton.getInstance().setUserName(user.getUserName());
+            User savedUser = this.userService.addUser(user);
+//            UserResponse userResponse = UserHelper.makeUserResponseFromUser(savedUser);
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
     }
     @PutMapping("/")
     public ResponseEntity<User> updateUser(@RequestBody User user){

@@ -4,6 +4,7 @@ package com.ecom.order.controller;
 import com.ecom.common.dto.OrderResponse;
 import com.ecom.common.dto.ProductResponse;
 import com.ecom.common.dto.UserResponse;
+import com.ecom.order.annotation.SecureEndpoint;
 import com.ecom.order.feign.ProductService;
 import com.ecom.order.feign.UserService;
 import com.ecom.order.helper.OrderHelper;
@@ -22,12 +23,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/order")
 
 public class OrderController {
-
     @Autowired
     OrderService orderService;
     @Autowired
     ProductService productService;
-//
     @Autowired
     UserService userService;
     @PostMapping("/")
@@ -41,6 +40,7 @@ public class OrderController {
         return new ResponseEntity<>(order1, HttpStatus.OK);
     }
     @GetMapping("/")
+    @SecureEndpoint({"USER"})
     public List<OrderResponse> getAllOrders(){
         return this.orderService.allOrders().stream().map(e -> {
             try {
@@ -55,6 +55,7 @@ public class OrderController {
         }).collect(Collectors.toList());
     }
     @GetMapping("/{id}")
+    @SecureEndpoint({"ADMIN"})
     public ResponseEntity<?> getOrderById(@PathVariable Long id){
         try {
             Order order = this.orderService.getOrderById(id);

@@ -21,7 +21,6 @@ public class AuthController {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
     }
-
     @PostMapping("/generateToken")
     public CustomJwt generateToken(@RequestBody UserResponse userResponse){
         Authentication authenticate = this.authenticationManager.authenticate(
@@ -31,8 +30,10 @@ public class AuthController {
         else
             throw new RuntimeException("Invalid Access");
     }
-
-
+    @PostMapping("/generateRefreshToken")
+    public CustomJwt generateRefereshToken(@RequestParam("token") String token){
+        return this.authService.generateNewTokenFromOldToken(token);
+    }
     @GetMapping("/validateToken")
     private String validateToken(@RequestParam("jwtToken") String jwtToken){
         return this.authService.validateToken(jwtToken);

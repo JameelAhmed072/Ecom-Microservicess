@@ -20,4 +20,5 @@ public class UserResponse {
     private String userAddress;
     private String userRole;
     private String userPassword;
+
 }

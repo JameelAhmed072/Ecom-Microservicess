@@ -1,6 +1,7 @@
 package com.ecom.product.controller;
 
 import com.ecom.common.dto.ProductResponse;
+import com.ecom.product.annotation.SecureEndpoint;
 import com.ecom.product.helper.ProductHelper;
 import com.ecom.product.model.Product;
 import com.ecom.product.service.impl.ProductServiceImpl;
@@ -18,11 +19,13 @@ public class ProductController {
     @Autowired
     ProductServiceImpl productService;
     @GetMapping("/{productId}")
+    @SecureEndpoint({"ADMIN"})
     public ProductResponse getProductById(@PathVariable Long productId){
         ProductResponse productResponse = ProductHelper.makeProductResponseFromProduct(this.productService.getSingleProduct(productId));
         return productResponse;
     }
     @GetMapping("/")
+    @SecureEndpoint({"USER"})
     public ResponseEntity<List<Product>> getAllProducts(){
 
         List<Product> allProducts = this.productService.getAllProducts();

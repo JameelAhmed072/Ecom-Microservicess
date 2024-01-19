@@ -26,7 +26,7 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.csrf(a -> a.disable())
-                .authorizeHttpRequests(b -> b.requestMatchers("/auth/generateToken","/auth/validateToken").permitAll())
+                .authorizeHttpRequests(b -> b.requestMatchers("/auth/generateToken","/auth/validateToken","/auth/generateRefreshToken").permitAll())
                 .build();
     }
     @Bean
